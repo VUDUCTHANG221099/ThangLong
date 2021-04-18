@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es
+
+        in  vec3 aPosition;
+        in  vec3 aColor;
+
+        out vec4 vColor;
+
+        uniform vec3 uUserCoordinates;
+
+        vec3 convertCoordinates(vec3 vPosition) {
+            return vPosition / uUserCoordinates;
+        }
+
+        void main() {            
+            gl_Position = vec4(convertCoordinates(aPosition), 1.0);
+            gl_Position.z = -gl_Position.z;
+            vColor = vec4(aColor, 1.0);
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es
+
+        precision mediump float;
+
+        in vec4 vColor;
+        out vec4 fColor;
+
+        void main() {
+            fColor = vColor;
+        }
+    </script>
+
+    <script type="text/javascript" src="../../Ho_Tro_Ky_Thuat/Common/initShaders.js"></script>
+    <script type="text/javascript" src="../../Ho_Tro_Ky_Thuat/Common/MVnew.js"></script>
+    <script type="text/javascript" src="sphere.js"></script>
+
+    <body>
+        <canvas id="gl-canvas" width="800" height="800">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </body>
+</html>

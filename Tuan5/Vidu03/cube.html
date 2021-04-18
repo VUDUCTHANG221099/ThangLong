@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es
+
+        in vec3 aPosition;
+        in vec3 aColor;
+
+        out vec4 vColor;
+
+        uniform vec3 uUserCoordinates;
+        uniform vec3 uDistance;
+        uniform vec3 uTheta;
+
+        vec3 convertCoordinates(vec3 vPosition) {
+            return vPosition / uUserCoordinates;
+        }
+
+        vec3 translate(vec3 aPosition) {
+            // Ham transpose chuyen hang thanh cot, cot thanh hang (tao ma tran chuyen vi)
+            mat4 mTranslate = transpose(mat4(
+                1.0, 0.0, 0.0, uDistance.x,
+                0.0, 1.0, 0.0, uDistance.y,
+                0.0, 0.0, 1.0, uDistance.z,
+                0.0, 0.0, 0.0, 1.0
+            ));
+
+            vec4 vPosition = vec4(aPosition, 1.0);
+
+            vec4 newPosition = mTranslate * vPosition; 
+
+            return vec3(newPosition.x, newPosition.y, newPosition.z);            
+        }
+
+        vec3 rotate(vec3 aPosition) {
+            vec3 angles = radians(uTheta);
+
+            mat4 rotate_x = transpose(mat4(
+                1.0, 0.0, 0.0, 0.0,
+		        0.0, cos(angles[0]), -sin(angles[0]), 0.0,
+		        0.0, sin(angles[0]), cos(angles[0]), 0.0,
+                0.0, 0.0,  0.0, 1.0));
+
+            mat4 rotate_y = transpose(mat4(
+                cos(angles[1]), 0.0,  sin(angles[1]), 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                -sin(angles[1]), 0.0, cos(angles[1]), 0.0,
+                0.0, 0.0,  0.0, 1.0));
+            
+            mat4 rotate_z = transpose(mat4(
+                cos(angles[2]), -sin(angles[2]),  0.0, 0.0,
+                sin(angles[2]), cos(angles[2]), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0,  0.0, 1.0));
+
+            vec4 vPosition = vec4(aPosition, 1.0);
+
+            vec4 newPosition = rotate_z * rotate_y * rotate_x * vPosition; 
+
+            return vec3(newPosition.x, newPosition.y, newPosition.z);
+        }
+
+        void main() {
+            gl_Position = vec4(convertCoordinates(translate(rotate(aPosition))), 1.0);
+            gl_Position.z = -gl_Position.z;
+            vColor = vec4(aColor, 1.0);
+
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es
+
+        precision mediump float;
+
+        in vec4 vColor;
+        out vec4 fColor;
+
+        void main() {
+            fColor = vColor;
+        }
+    </script>
+
+    <script type="text/javascript" src="../../Ho_Tro_Ky_Thuat/Common/initShaders.js"></script>
+    <script type="text/javascript" src="../../Ho_Tro_Ky_Thuat/Common/MVnew.js"></script>
+    <script type="text/javascript" src="cube.js"></script>
+
+    <body>
+        <table width="100%">
+        <tr>
+            <td>
+                <div>
+                    x: -440 <input id="slider_x" type="range" min="-440" max="440" step="2" value="0" style="width:50%"/> 440
+                </div>
+                <div>
+                    y: -340 <input id="slider_y" type="range" min="-340" max="340" step="2" value="0" style="width:50%"/> 340
+                </div>
+                <div>
+                    z: -340 <input id="slider_z" type="range" min="-340" max="340" step="2" value="0" style="width:50%"/> 340
+                </div>
+            </td>        
+            <td>
+                <div>
+                    Angle X: 0 <input id="angle_x" type="range" min="0" max="360" step="1" value="1" style="width:50%"/> 360
+                </div>
+                <div>
+                    Angle Y: 0 <input id="angle_y" type="range" min="0" max="360" step="1" value="1" style="width:50%"/> 360
+                </div>
+                <div>
+                    Angle Z: 0 <input id="angle_z" type="range" min="0" max="360" step="1" value="1" style="width:50%"/> 360
+                </div>
+            </td>
+        </tr>       
+        </table>
+
+        <hr>
+
+        <canvas id="gl-canvas" width="800" height="800">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </body>
+</html>

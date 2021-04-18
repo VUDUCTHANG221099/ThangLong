@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Truong hop 1: Cac ham duoc dinh nghia doc lap va thuc hien theo thu tu 
+    <script type="text/javascript">
+
+        function f1() {
+            alert(1);
+        }
+
+        function f2() {
+            alert(2);
+        }
+
+        function f3() {
+            alert(3);
+        }
+
+        f1();
+        f2();
+        f3();
+    </script> -->
+
+
+    <!-- Truong hop 2: Cac ham duoc dinh nghia doc lap va thuc hien theo thu tu 
+         Tuy nhien ham f2 co chua mot ham tao do tre.
+    
+    <script type="text/javascript">
+
+        function f1() {
+            alert(1);
+        }       
+
+        function f2() {
+            setTimeout(() => {                
+                alert(2);                
+            }, 1000)
+        }
+
+        function f3() {
+            alert(3);
+        }
+
+        f1();
+        f2();
+        f3();
+    </script> -->
+    
+    <!-- Truong hop 3: Coi f3 la ham callback va duoc goi ben trong ham f2  -->
+    <script type="text/javascript">
+
+        function f1() {
+            alert(1);
+        }       
+
+        function f2(fcb) {
+            setTimeout(() => {                
+                alert(2);
+                fcb();                
+            }, 1000)
+        }
+
+        function f3() {
+            alert(3);
+        }
+
+        f1();
+        f2(f3);
+    </script>
+</head>
+
+<body>    
+</body>
+</html>

@@ -1,2 +1,2 @@
-# Thang Long Univesity
- Đại học Thăng Long
+# Graphics
+ Đồ họa

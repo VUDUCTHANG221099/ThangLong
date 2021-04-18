@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Ve chu T</title>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      #version 300 es
+
+      in vec2 aPosition;
+
+      uniform vec2 aResolution;
+
+      vec2 convertCoordinates(vec2 position, vec2 resolution) {
+          return position / resolution;
+      }
+
+      void main()
+      {
+          gl_Position = vec4(convertCoordinates(aPosition, aResolution), 0.0, 1.0);
+      }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      #version 300 es
+      precision mediump float;
+
+      out vec4 fColor;
+
+      void main()
+      {
+          fColor = vec4(0.0, 0.0, 1.0, 1.0);
+      }
+    </script>
+
+    <script
+      type="text/javascript"
+      src="../../Ho_Tro_Ky_Thuat/Common/initShaders.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../Ho_Tro_Ky_Thuat/Common/MVnew.js"
+    ></script>
+    <script type="text/javascript" src="tlu.js"></script>
+  </head>
+
+  <body>
+    <div>
+      x: -440
+      <input
+        id="slider_x"
+        type="range"
+        min="-440"
+        max="440"
+        step="2"
+        value="0"
+        style="width: 25%"
+      />
+      440
+    </div>
+    <div>
+      y: -340
+      <input
+        id="slider_y"
+        type="range"
+        min="-340"
+        max="340"
+        step="2"
+        value="0"
+        style="width: 25%"
+      />
+      340
+    </div>
+    <br />
+  
+    <canvas id="gl-canvas" width="640" height="640">
+      Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+  </body>
+</html>
