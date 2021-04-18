@@ -1,0 +1,48 @@
+--USE master
+--GO
+--IF EXISTS (SELECT NAME FROM SYS.DATABASES WHERE NAME='PhanQuyen')
+--DROP DATABASE PhanQuyen
+--GO
+--CREATE DATABASE PhanQuyen
+--GO
+--CREATE TABLE HT_User(
+--				TenDangNhap		varchar(20)			not null		PRIMARY KEY,
+--				MaDonVi			varchar(20)			not null,
+--				HangDKV			char(1),
+--				MaDKV			varchar(20),
+--				MatKhau			varchar(150)		not null,
+--				HoTen			nvarchar(50)		not null,
+--				Ten				nvarchar(20)		not null,
+--				NgaySinh		date				not null,
+--				SoCMT			varchar(15),
+--)
+--GO
+--CREATE TABLE HT_Role(
+--				MaRole			tinyint				not null		PRIMARY KEY,
+--				TenRole			nvarchar(50)		not null,
+--				Mota			nvarchar(500),
+--)
+--GO
+--CREATE TABLE HT_RoleUser(
+--				MaRole			tinyint				not null,
+--				TenDangNhap		varchar(20)			not null,
+--				CONSTRAINT PK_HT_RoleUser PRIMARY KEY (MaRole,TenDangNhap),
+--				CONSTRAINT PK_HT_User_HT_RoleUser FOREIGN KEY (TenDangNhap) REFERENCES HT_User(TenDangNhap),
+--				CONSTRAINT PK_HT_Role_HT_RoleUser FOREIGN KEY (MaRole) REFERENCES HT_Role(MaRole)
+--)
+--GO
+--CREATE LOGIN SinhVien1
+--CREATE LOGIN SinhVien1 with password='1'
+--CREATE USER OF SinhVien1
+--CREATE USER SV1 FOR LOGIN SinhVien1
+--GRANT
+--GRANT  Select, Insert, Update, Delete ON [dbo].[HT_User] TO SV1
+--GRANT  Select, Insert, Update, Delete ON [dbo].[HT_RoleUser] TO SV1
+--CREATE LOGIN SinhVien2
+--CREATE LOGIN [DESKTOP-POO088L\THANGVU] FROM WINDOWS
+--CREATE USER OR SinhVien2
+--CREATE USER SV2 FOR LOGIN [DESKTOP-POO088L\THANGVU]
+--GRANT
+--GRANT SELECT ON [dbo].[HT_User] TO SV2
+--GRANT  Select, Insert, Update, Delete ON [dbo].[HT_Role] TO SV2
+--GRANT  Select, Insert, Update, Delete ON [dbo].[HT_RoleUser] TO SV2

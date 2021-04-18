@@ -1,0 +1,94 @@
+﻿--Viết 1 Script tạo hai biến số nguyên (var1 và var2),
+--thiết lập giá trị cho hai biến đó là 2 và 4, In ra giá trị tổng của 2 biến đó.
+--DECLARE @var1 INT
+--DECLARE @var2 INT
+--SET @var1=2
+--SET @var2=4
+--PRINT @var1+@var2
+-----------------------------------------------------------------------------------------------------------------
+--Trên CSDL Northwind. Viết 1 script thực hiện các công việc sau:
+--Tạo một biến là MinOrder
+--Lấy thông tin về tổng giá trị (số tiền) nhỏ nhất 
+--(Quantity * UnitPrice * (1-Discount)) của sản phẩm trong tất cả hoá đơn của khách hàng có mã CustomerID=’ALFKI’,  
+--gán giá trị này vào biến MinOrder
+--Hiển thị thông tin của biến MinOrder
+--USE Northwind
+--GO
+--DECLARE @MinOrder INT
+--DECLARE @name CHAR(20)
+--SET @name='ALFKI'
+--SET @MinOrder=(SELECT MIN(DB.Quantity*DB.UnitPrice*(1-DB.Discount)) AS [MIN ALFKI]
+--				FROM Orders O , [Order Details] DB
+--				WHERE O.CustomerID=@name AND O.OrderID=DB.OrderID)
+--PRINT 'Thong tin ve tong gia tri nho nhat cua khach hang ALFKI'+' '+CONVERT(char, @MinOrder) 
+-----------------------------------------------------------------------------------------------------------------
+--Trên CSDL Northwind. Viết 1 script thực hiện các công việc sau:
+--Tạo 2 biến là OrderID, MaxQuantityOrder
+--Lấy thông tin  về số hoá đơn (OrderID ) và tổng khối lượng hàng hoá của hoá đơn có tổng khối lượng hàng hoá
+--(Quantity) lớn nhất  trong tất cả hoá đơn của khách hàng có mã CustomerID=’ALFKI’,  
+--gán các giá trị này lần lượt vào các biến vào biến OrderID, MaxQuantityOrder
+--Hiển thị thông tin của biến OrderID, MaxQuantityOrder
+--USE Northwind
+--GO
+--DECLARE @OrderID INT
+--DECLARE @MaxQuantityOrder INT
+-----------------------------------------------------------------------------------------------------------------
+--Viết một đoạn lệnh sử dụng câu lệnh While in ra kết quả như sau
+--10  9 8 7 6 5 4 3 2 1
+--USE master
+--GO
+--DECLARE @counter INT
+--DECLARE @list varchar(50)
+--SET @counter=10
+--SET @list=''
+--WHILE @counter>=1
+--BEGIN 
+--	SET @list=@list+' '+CONVERT(varchar,@counter)
+--	SET @counter=@counter-1
+--END
+--PRINT @list
+--Sử dụng câu lệnh SQLCMD để chạy và hiển thị kết quả của câu truy vấn 
+--“SELECT COUNT(*) FROM Customers” ra màn hình cửa sổ dòng lệnh của Window
+-----------------------------------------------------------------------------------------------------------------
+--Trên CSDL Northwind , Viết đoạn lệnh thêm mới thông tin vào bảng [Order Details]
+--(sử dụng cấu trúc Try/Catch để bắt lỗi, dùng hàm Raiserror() để phát sinh lỗi) :
+--Khai báo các biến, nhập giá trị cho các biến @OrderID, @ProductID, @UnitPrice, @Quantity, @Discount
+--Kiểm tra nếu số lượng hàng (@Quantity) <= 0 thì hiện ra thông báo lỗi “Số lượng sản phẩm phải >0” 
+--và không thực hiện lệnh thêm mới dữ liệu
+--Kiểm tra nếu số giảm giá  (@Discount) > 10 thì hiện ra thông báo lỗi “% giảm giá phải <=10%”
+--và không thực hiện lệnh thêm mới dữ liệu
+--Nếu thoả mãn hai điều kiện trên thực hiện thêm mới dữ liệu vào bảng [Order Details]. 
+--Bắt các lỗi thêm mới dữ liệu nếu có và hiển thị thông tin của lỗi. 
+--USE Northwind
+--GO
+--DECLARE @OrderID AS INT
+--SET @OrderID=12048
+----Lấy @OrderID có sẵn
+--DECLARE @ProductID AS INT
+--SET @ProductID=1
+----Lấy @ProductID có sẵn
+--DECLARE @UnitProce AS INT
+--SET @UnitProce = 500
+----Lấy @UnitProce có sẵn
+--DECLARE @Quantiny AS SMALLINT
+--SET @Quantiny = 100
+----Lấy @Quantiny có sẵn
+--DECLARE @Discount AS REAL
+--SET @Discount = 0.2
+----Lấy @Discount có sẵn
+--BEGIN TRY
+--	IF (@Quantiny <= 0)
+--		RAISERROR ('Quantiny need more than 0', 11, 1)
+
+--	IF (@Discount > 0.1)
+--		raiserror ('Quantiny need less than 10%%', 11, 1)
+
+--	INSERT INTO [Order Details] (OrderID, ProductID, UnitPrice, Quantity, Discount)
+--	VALUES (@OrderID, @ProductID, @UnitProce, @Quantiny, @Discount)
+--END TRY
+--BEGIN CATCH
+--	PRINT Error_Message()
+--	PRINT 'Something went wrong'
+--END CATCH
+
+

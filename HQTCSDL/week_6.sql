@@ -1,0 +1,201 @@
+﻿-------------------------------------CREATE PROC-------------------------------------
+--USE Northwind
+--GO
+--CREATE PROC spShippers
+--AS
+--SELECT * FROM Shippers
+----exec spShippers
+----GO
+-------------------------------------ALTER PROC-------------------------------------
+--ALTER PROC spShippers
+--AS
+--SELECT S.CompanyName FROM Shippers S
+-------------------------------------DROP PROC-------------------------------------
+----DROP PROC spShippers
+-------------------------------------Parameters-------------------------------------
+--USE Northwind
+--GO
+--CREATE PROC dbo.usp_GetCustOrders
+--	@custid AS NCHAR(5),
+--	@fromdate AS DATETIME,
+--	@todate AS DATETIME
+--AS
+--SELECT OrderID, CustomerID, EmployeeID, OrderDate
+--FROM dbo.Orders
+--WHERE CustomerID = @custid
+--	AND OrderDate >= @fromdate
+--	AND OrderDate < @todate;
+--GO
+----EXEC dbo.usp_GetCustOrders N'ALFKI', '01-01-1997','12-31-1999'
+----GO
+-------------------------------------Supplying Default Values-------------------------------------
+--ALTER PROC dbo.usp_GetCustOrders
+--	@custid AS NCHAR(5),
+--	@fromdate AS DATETIME= '19000101',
+--	@todate AS DATETIME= '99991231'
+--AS
+--SET NOCOUNT ON;
+--SELECT OrderID, CustomerID, EmployeeID, OrderDate
+--FROM dbo.Orders
+--WHERE CustomerID= @custid
+--		AND OrderDate >= @fromdate
+--		AND OrderDate< @todate;
+--GO
+----EXEC dbo.usp_GetCustOrders N'ALFKI'
+----GO
+-------------------------------------Output Parameters-------------------------------------
+--ALTER PROC dbo.usp_GetCustOrders
+--@custid AS NCHAR(5),
+--@fromdate AS DATETIME= '19000101',
+--@todate AS DATETIME= '99991231',
+--@numrows AS INT OUTPUT
+--AS
+--SET NOCOUNT ON
+--SELECT OrderID, CustomerID, EmployeeID, OrderDate
+--FROM dbo.Orders
+--WHERE CustomerID= @custid
+--		AND OrderDate >= @fromdate
+--		AND OrderDate< @todate;
+--SELECT @numrows= @@rowcount;
+--GO
+----DECLARE @mynumrows AS INT;
+----EXEC dbo.usp_GetCustOrders
+----@custid=N'ALFKI',
+----@fromdate= '19970101',
+----@todate= '19980101',
+----@numrows= @mynumrows OUTPUT;
+----SELECT @mynumrows AS rc;
+----GO
+-------------------------------------Recursion-------------------------------------
+--CREATE PROC spFactorial @ValueIn int, @ValueOut int
+--OUTPUT
+--AS
+--DECLARE @InWorking int
+--DECLARE @OutWorking int
+--IF @ValueIn != 1
+--	BEGIN
+--		SELECT @InWorking = @ValueIn - 1
+--		EXEC spFactorial @InWorking, @OutWorking OUTPUT
+--		SELECT @ValueOut = @ValueIn * @OutWorking
+--	END
+--ELSE
+--	BEGIN
+--		SELECT @ValueOut = 1
+--	END
+--RETURN
+--GO
+----DECLARE @WorkingOut int
+----DECLARE @WorkingIn int
+----SELECT @WorkingIn = 5
+----EXEC spFactorial @WorkingIn, @WorkingOut
+----OUTPUT
+----PRINT CAST(@WorkingIn AS varchar) + 'factorial is ' + CAST(@WorkingOut AS varchar)
+----GO
+-------------------------------------Scalar UDFs-------------------------------------
+--USE Northwind
+--GO
+--CREATE FUNCTION dbo.DayOnlys (@Date datetime)
+--	RETURNS varchar(12)
+--AS
+--BEGIN
+--	RETURN CONVERT(varchar(12), @Date, 101)
+--END GO----SELECT * FROM Orders
+----WHERE dbo.DayOnlys(OrderDate) =dbo.DayOnlys(GETDATE())---GO-------------------------------------Table-valued UDFs---------------------------------------USE Northwind
+--GO
+--CREATE FUNCTION dbo.fn_GetCustOrderss
+--		(@cid AS NCHAR(5)) RETURNS TABLE 
+--AS
+--RETURN
+--	SELECT OrderID, CustomerID, EmployeeID, OrderDate,
+--		RequiredDate,ShippedDate, ShipVia, Freight,
+--		ShipName, ShipAddress, ShipCity,
+--		ShipRegion, ShipPostalCode, ShipCountry
+--FROM dbo.Orders
+--WHERE CustomerID= @cid;GO----SELECT O.OrderID,O.CustomerID,OD.ProductID, OD.Quantity
+----FROM dbo.fn_GetCustOrderss(N'ALFKI') AS O JOIN [Order Details] AS OD ON O.OrderID= OD.OrderID;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------Trên CSDL Northwind, viết 1 thủ tục (Stored Procedure) trả về thông tin của khách hàng với tham số đầu ----vào là mã khách hàng (CustomerID)--USE Northwind--GO--CREATE PROC dbo.usp_GetCustomers--	@custid AS NCHAR(5)--AS--SELECT * FROM [dbo].[Customers]--WHERE CustomerID=@custid----EXEC dbo.usp_GetCustomers 'ALFKI'----DROP PROC dbo.usp_GetCustomers------------------------------------------------------------------------------------------------------Trên CSDL Northwind, viết một thủ tục thêm mới dữ liệu vào bảng Territories với các tham số đầu vào là ----Territory ID, Territory Description và Region --USE Northwind--GO--CREATE PROC dbo.usp_Territories--	@Territory_ID AS nvarchar(20),--	@Territory_Description AS nchar(50),
+--	@Region_ID AS INT 
+--AS
+--BEGIN
+--	INSERT INTO  Territories(TerritoryID,TerritoryDescription,RegionID)
+--	VALUES(@Territory_ID,@Territory_Description,@Region_ID);
+--END
+GO
+----EXEC dbo.usp_Territories 'Vietnam','Hanoi',1000;
+----DROP PROC dbo.usp_Territories
+--------------------------------------------------------------------------------------------------
+----Viết một thủ tục đệ quy tính tổng dãy số của một số (triangular) nguyên.
+----Đầu vào: Một số nguyên n (n=5)
+----Đầu ra: Tổng của dãy số T=n+ (n-1) + ... + 1.(ví dụ với n=5, T=5+4+3+2+1)
+--CREATE PROC sptriangular @ValueIn int, @ValueOut int
+--OUTPUT
+--AS
+--DECLARE @InWorking int
+--DECLARE @OutWorking int
+--IF @ValueIn != 1
+--	BEGIN
+--		SELECT @InWorking = @ValueIn - 1
+--		EXEC sptriangular @InWorking, @OutWorking OUTPUT
+--		SELECT @ValueOut = @ValueIn + @OutWorking
+--	END
+--ELSE
+--	BEGIN
+--		SELECT @ValueOut = 1
+--	END
+--RETURN
+--GO
+----DECLARE @WorkingOut int
+----DECLARE @WorkingIn int
+----SELECT @WorkingIn = 5
+----EXEC sptriangular @WorkingIn, @WorkingOut
+----OUTPUT
+----PRINT CAST(@WorkingIn AS varchar) + 'triangular is ' + CAST(@WorkingOut AS varchar)
+----GO
+------DROP PROC sptriangular
+--------------------------------------------------------------------------------------------------
+----Trên CSDL Northwind, viết một hàm  với:
+----Đầu vào: Mã khách hàng (CustomerID)
+----Đầu ra: Chuỗi ký tự chứa danh sách mã hoá đơn (OrderID) của khách hàng. Mỗi mã hoá đơn cách nhau bởi dấu ‘;’
+----GetListHoaDon--
+-------------------------------------------Run FUNCTION BEFORE-------------------------------------------
+--USE Northwind
+--GO
+--CREATE FUNCTION dbo.GetListHoaDon (@CustID NCHAR(5))
+--RETURNS VARCHAR(500)
+--AS
+--BEGIN	
+--	DECLARE @ls VARCHAR(500)
+--	SET @ls=''
+--	SELECT @ls=@ls+CONVERT(varchar,O.OrderID)+'; '
+--	FROM Orders O
+--	WHERE O.CustomerID=@CustID
+--	RETURN @ls
+--END
+GO
+----GetListHoaDon--
+----DSHoaDon
+----SELECT dbo.GetListHoaDon('ALFKI') AS DSHoaDon
+----GO
+----DSHoaDon of ALFKI
+---------------------------------------------------
+----GetListSoLuongHoaDon--
+-------------------------------------------Run FUNCTION BEFORE-------------------------------------------
+--USE Northwind
+--GO
+--CREATE FUNCTION dbo.GetListSoLuongHoaDon (@CustID NCHAR(5))
+--RETURNS INT 
+--AS
+--BEGIN	
+--	DECLARE @ls INT
+--	SET @ls=0
+--	SELECT @ls=COUNT(O.OrderID)
+--	FROM Orders O
+--	WHERE O.CustomerID=@CustID
+--	RETURN @ls
+--END
+GO
+----DSHoaDon AND DLHoaDon--
+----SELECT C.CustomerID, dbo.GetListHoaDon(CustomerID) AS DSHD, dbo.GetListSoLuongHoaDon(CustomerID) AS SLHD
+----FROM Customers C
+----GO
+----DSHoaDon AND DLHoaDon--
+----GetListSoLuongHoaDon--

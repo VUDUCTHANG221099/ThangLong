@@ -1,0 +1,140 @@
+----CREATE LOGIN/LOGIN FOR WINDOWS
+----CREATE LOGIN--
+--USE master
+--GO
+--CREATE LOGIN A32323 WITH PASSWORD='1'
+----------------------------------------------
+----USE master
+----GO
+----DROP LOGIN A32323
+----------------------------------------------
+----CREATE LOGIN--
+----------------------------------------------
+----------------------------------------------
+----CREATE LOGIN FOR WINDOWS--
+--USE master
+--GO
+--CREATE LOGIN [DESKTOP-0776VF7\VUDUCTHANG] FROM WINDOWS
+----------------------------------------------
+----USE master
+----GO
+----DROP LOGIN [DESKTOP-0776VF7\VUDUCTHANG]
+----------------------------------------------
+----CREATE LOGIN FOR WINDOWS--
+----CREATE LOGIN/LOGIN FOR WINDOWS
+
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+
+----CREATE USER/USER FOR WINDOWS
+----CREATE USER--
+--USE PhanQuyen
+--GO
+--CREATE USER SV1 FOR LOGIN A32323
+----------------------------------------------
+----USE PhanQuyen
+----GO
+----DROP USER SV1
+----------------------------------------------
+----CREATE USER--
+----------------------------------------------
+----------------------------------------------
+----CREATE USER FOR WINDOWS--
+--USE PhanQuyen
+--GO
+--CREATE USER SV2 FOR LOGIN [DESKTOP-0776VF7\VUDUCTHANG]
+----------------------------------------------
+----USE PhanQuyen
+----GO
+----DROP USER SV2
+----------------------------------------------
+----CREATE USER FOR WINDOWS--
+----CREATE USER/USER FOR WINDOWS
+
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+
+----BACKUP FOR USER SV1--
+--USE PhanQuyen
+--GO
+--exec sp_addrolemember 'Db_backupoperator','SV1'
+----BACKUP FOR USER SV1--
+
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+
+----NEW CREATE DATABASE FOR LOGIN 
+--USE master
+--GO
+--exec sp_addsrvrolemember 'A32323','Dbcreator'
+----NEW CREATE DATABASE FOR LOGIN
+
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+
+----GRANT SELECT , INSERT , UPDATE , DELETE FOR HT_User , HT_RoleUser     USER SV1
+----REVOKE HT_Role														  USER SV1
+----------------------------------------------------------------------------------
+--USE PhanQuyen
+--GO
+--GRANT SELECT , INSERT , UPDATE , DELETE ON HT_User TO SV1
+--GRANT SELECT , INSERT , UPDATE , DELETE ON HT_RoleUser TO SV1
+--REVOKE SELECT , INSERT , UPDATE , DELETE ON HT_Role TO SV1
+-----------------------------------------------------------------------------------
+----GRANT SELECT , INSERT , UPDATE , DELETE FOR HT_User , HT_RoleUser		USER SV1
+----REVOKE HT_Role															USER SV1
+---------------------LOGIN A32323
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+
+----GRANT SELECT FOR HT_User												USER SV2										
+----GRANT SELECT , INSERT , UPDATE , DELETE FOR HT_Role , HT_RoleUser		USER SV2
+------------------------------------------------------------------------------------
+--USE PhanQuyen
+--GO
+--GRANT SELECT ON HT_User TO SV2
+--GRANT SELECT , INSERT , UPDATE , DELETE ON HT_Role TO SV2
+--GRANT SELECT , INSERT , UPDATE , DELETE ON HT_RoleUser TO SV2
+------------------------------------------------------------------------------------
+----GRANT SELECT FOR HT_User												USER SV2										
+----GRANT SELECT , INSERT , UPDATE , DELETE FOR HT_Role , HT_RoleUser		USER SV2
+---------------------LOGIN ACCOUNT WINDOWS
+
+
+----DECENTRSLIZATION
+----------------------------------------------------
+----CREATE LOGIN USER1, USER2--
+--USE master
+--GO
+--CREATE LOGIN USERA WITH PASSWORD='1'
+--CREATE LOGIN USERB WITH PASSWORD='1'
+----------------------------------------------------
+----USE master
+----GO
+----DROP LOGIN USERA
+----DROP LOGIN USERB
+----CREATE LOGIN USER1, USER2--
+---------------------LOGIN INTO THE A32323 TO LEVEL RIGHTS
+----------------------------------------------------
+----CREATE USER FOR USER1 AND USER2
+--USE PhanQuyen
+--GO
+--CREATE USER dbUserA FOR LOGIN USERA
+--CREATE USER dbUserB FOR LOGIN USERB
+----------------------------------------------------
+----CREATE USER FOR USER1 AND USER2
+----------------------------------------------------
+----USE PhanQuyen
+----GO
+----DROP USER dbUSERA
+----DROP USER dbUSERB
+----------------------------------------------------
+----DECENTRSLIZATION
+
+---------------------LOGIN INTO THE A32323 TO LEVEL RIGHTS USER dbUserA
+

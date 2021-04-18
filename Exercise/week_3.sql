@@ -1,0 +1,141 @@
+﻿----Declaring Variables
+--DECLARE @age INT;
+--DECLARE @firstName CHAR(20),@lastName CHAR(20);
+----Declaring Variables
+------------------------------------------------------------------------------------------
+----Assigning Values to Variables
+--SET @age=21;
+--SET @firstName='Ben';
+--SET @lastName='Forta';
+----Assigning Values to Variables
+------------------------------------------------------------------------------------------
+----Viewing Variable Contents
+----SELECT @age,@firstName,@lastName;
+--PRINT @firstName+' '+@lastName+CONVERT(CHAR,@age);
+----Viewing Variable Contents
+------------------------------------------------------------------------------------------
+----Using Conditional Processing
+--DECLARE @age INT;
+--DECLARE @less CHAR(50);
+--DECLARE @greater CHAR(50);
+--SET @age=50;
+--SET @less='less than 18';
+--SET @greater='greater than 18';
+--IF @age<18
+--	BEGIN
+--		SELECT @less;
+--	END
+--ELSE
+--	BEGIN
+--		SELECT @greater;
+--	END
+----Using Conditional Processing
+------------------------------------------------------------------------------------------
+----Using Looping
+--DECLARE @n INT;
+--DECLARE @list NVARCHAR(100);
+--SET @n=0;
+--SET @list='';
+--WHILE @n<10
+--	BEGIN
+--		SET @list=@list+' '+CONVERT(NVARCHAR,@n);
+--		SET @n=@n+1;
+--	END
+--PRINT @list;
+----Using Looping
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+----Viết 1 Script tạo hai biến số nguyên (var1 và var2), thiết lập giá trị cho hai biến đó là 2 và 4, 
+----In ra giá trị tổng của 2 biến đó.
+--DECLARE @var1 INT, @var2 INT, @var3 INT;
+--SET @var1=2;
+--SET @var2=4;
+--SET @var3=@var1+@var2;
+--PRINT @var3
+----Viết 1 Script tạo hai biến số nguyên (var1 và var2), thiết lập giá trị cho hai biến đó là 2 và 4, 
+----In ra giá trị tổng của 2 biến đó.
+------------------------------------------------------------------------------------------
+----Viết một đoạn lệnh sử dụng câu lệnh While in ra kết quả như sau 10  9 8 7 6 5 4 3 2 1
+--DECLARE @count INT,@list NVARCHAR(50);
+--SET @count=10;
+--SET @list='';
+--WHILE @count>0
+--	BEGIN
+--		SET @list=@list+' '+CONVERT(nvarchar,@count);
+--		SET @count=@count-1;
+--	END
+--PRINT @list;
+----Viết một đoạn lệnh sử dụng câu lệnh While in ra kết quả như sau 10  9 8 7 6 5 4 3 2 1
+------------------------------------------------------------------------------------------
+----Trên CSDL Northwind. Viết 1 script thực hiện các công việc sau:Tạo một biến là MinOrder
+----Lấy thông tin về tổng giá trị (số tiền) nhỏ nhất (Quantity * UnitPrice * (1-Discount)) 
+----của sản phẩm trong tất cả hoá đơn của khách hàng có mã CustomerID=’ALFKI’,  gán giá trị này vào biến MinOrder
+----Hiển thị thông tin của biến MinOrder.
+--USE Northwind
+--GO
+--DECLARE @MinOrder INT;
+--SET @MinOrder=(SELECT MIN(OD.Quantity*OD.UnitPrice*(1-OD.Discount))
+--				FROM [dbo].[Order Details] OD, [dbo].[Orders] O
+--				WHERE O.CustomerID='ALFKI' AND OD.OrderID=O.OrderID)
+--PRINT 'Min Order of Customer ALFKI  '+	CONVERT(NVARCHAR,@MinOrder)
+------------------------------------------------------------------------------------------
+----Trên CSDL Northwind , Viết đoạn lệnh thêm mới thông tin vào bảng [Order Details] 
+----(sử dụng cấu trúc Try/Catch để bắt lỗi, dùng hàm Raiserror() để phát sinh lỗi) :
+----Khai báo các biến, nhập giá trị cho các biến @OrderID, @ProductID, @UnitPrice, @Quantity, @Discount
+----Kiểm tra nếu số lượng hàng (@Quantity) <= 0 thì hiện ra thông báo lỗi “Số lượng sản phẩm phải >0” và không thực hiện lệnh thêm mới dữ liệu
+----Kiểm tra nếu số giảm giá  (@Discount) > 10 thì hiện ra thông báo lỗi “% giảm giá phải <=10%” và không thực hiện lệnh thêm mới dữ liệu
+----Nếu thoả mãn hai điều kiện trên thực hiện thêm mới dữ liệu vào bảng [Order Details]. 
+----Bắt các lỗi thêm mới dữ liệu nếu có và hiển thị thông tin của lỗi. 
+--DECLARE @OrderID AS INT
+--SET @OrderID = 12048
+---- lay orderid co san
+--DECLARE @ProductID AS INT
+--set @ProductID = 1
+---- lay productid co san
+--DECLARE @UnitProce AS INT
+--SET @UnitProce = 500
+--DECLARE @Quantiny AS SMALLINT
+--SET @Quantiny = 100
+--DECLARE @Discount AS REAL
+--SET @Discount = 0.2
+--BEGIN TRY
+--	IF (@Quantiny <= 0)
+--		RAISERROR ('Quantiny need more than 0', 11, 1)
+--	IF (@Discount > 0.1)
+--		RAISERROR ('Quantiny need less than 10%%', 11, 1)
+--	INSERT INTO [Order Details] (OrderID, ProductID, UnitPrice, Quantity, Discount)
+--	VALUES (@OrderID, @ProductID, @UnitProce, @Quantiny, @Discount)
+--END TRY
+--BEGIN CATCH
+--	PRINT Error_Message()
+--	PRINT 'Something went wrong'
+--END CATCH
+------------------------------------------------------------------------------------------
+--Sử dụng câu lệnh SQLCMD để chạy và hiển thị kết quả của câu truy vấn “SELECT COUNT(*) FROM Customers” 
+--ra màn hình cửa sổ dòng lệnh của Window
+--Cách sử dụng Command Prompt với SQL Server
+--Bước 1:Kết nối với SQL Server
+	--Kết nối với SQL Server [Server Name]
+	--	sqlcmd -S [Server Name] -E
+	--Kết nối với SQL Server [loin]
+--	--sqlcmd -S [Server Name] -U [login] -P [password]
+--Bước 2: Kiểm tra database hiện tại trong sql
+	--SELECT DB_NAME()
+	--GO
+--Bước 3: Liệt kê các database trong sql
+	--SELECT NAME FROM sys.databases
+	--GO
+	--Bạn cũng có thể sử dụng thủ tục lưu trữ sp_databases:
+	--Sp_databases
+	--Go
+--Bước 4: Cách kiểm tra xem SQL Server có phân biệt chữ hoa chữ thường trong sqlcmd hay không
+	--SELECT SERVERPROPERTY('COLLATION')
+	--GO
+--Bước 5: Cách kiểm tra phiên bản SQL Server trong SQL
+	--SELECT SERVERPROPERTY('EDITION')
+	--GO
+tutorial: https://www.sqlshack.com/working-sql-server-command-line-sqlcmd/

@@ -1,0 +1,28 @@
+﻿--DECLARE @age INT
+--DECLARE @firstName char(20), @lastName char(20)
+--SET @lastName='Forta'
+--SET @firstName='Ben'
+--SET @age=21
+--SELECT @lastName, @firstName, @age
+-----------------------------------------------------------------------------------------
+--DECLARE @dow INT
+--DECLARE @open BIT
+--SET @dow=DATEPART(DW,GETDATE())
+--IF @dow=1 OR @dow=7
+--	SET @open=0
+--ELSE 
+--	SET @open=1
+--SELECT @open AS OpenForBusiness
+----PRINT @open
+-----------------------------------------------------------------------------------------
+--DECLARE @counter INT
+--DECLARE @list nvarchar(50)
+--SET @counter=1
+--SET @list=''
+--WHILE @counter<=10
+--BEGIN
+--	SET @list=@list+' '+CONVERT(nvarchar,@counter)
+--	SET @counter=@counter+1
+--END
+--PRINT @list
+-----------------------------------------------------------------------------------------

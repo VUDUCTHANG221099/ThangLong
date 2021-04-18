@@ -1,0 +1,34 @@
+﻿--create database A32323
+use A32323
+go
+--Tạo tài khoản đăng nhập
+--create login a1 with password='123'
+--Tạo người dùng
+--create user utest1 for login a1
+--Phân vào nhóm quyền
+--exec sp_addsrvrolemember 'a1','dbcreator' --login
+--exec sp_addrolemember 'db_owner','utest1' --user
+--Xóa khỏi nhóm quyền
+--exec sp_dropsrvrolemember 'a1','dbcreator' --login
+--exec sp_droprolemember 'db_owner','utest1' --login
+--Tạo user trên northwind
+--use Northwind
+--create user n1 for login a1
+--grant phân quyền gán quyền cho một đối tượng
+--revoke thu hồi
+--denies cấm
+--Tên của 1 nhóm các đối tượng
+--dbo tên nhóm của một đối tượng
+--Phân quyền cho login a1 phân quyền cho tất cả, mức server
+--use master
+--grant create any database to a1
+--Phân quyền cho n1
+--use Northwind
+--grant select on Customers to n1
+--grant select,insert,delete,update on Customers to n1
+--Thu hổi quyền
+--revoke select,insert on Customers to n1
+--Cấm
+--deny select,insert,delete,update on Customers to n1
+--Kiểm tra quyền bên server khác
+--select * from fn_my_permissions('Customers','object')

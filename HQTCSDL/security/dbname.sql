@@ -1,0 +1,39 @@
+USE master
+GO
+IF EXISTS (SELECT NAME FROM SYS.DATABASES WHERE NAME='PhanQuyen')
+DROP DATABASE PhanQuyen
+GO
+CREATE DATABASE PhanQuyen
+GO
+USE PhanQuyen
+GO
+CREATE TABLE	HT_User(
+					TenDangNhap		VARCHAR(20)			NOT NULL		PRIMARY KEY,
+					MaDonVi			VARCHAR(20)			NOT NULL,
+					HangDKV			CHAR(1),
+					MaDKV			VARCHAR(20),
+					MatKhau			VARCHAR(150)		NOT NULL,
+					HoTen			NVARCHAR(50)		NOT NULL,
+					Ten				NVARCHAR(20)		NOT NULL,
+					NgaySinh		DATE				NOT NULL,
+					SoCMT			VARCHAR(15),
+)
+GO
+
+CREATE TABLE HT_Role(
+					MaRole			TINYINT				NOT NULL		PRIMARY KEY,
+					TenRole			NVARCHAR(50)		NOT NULL,
+					Mota			NVARCHAR(500),
+)
+GO
+
+CREATE TABLE HT_RoleUser(
+					MaRole			TINYINT				NOT NULL,
+					TenDangNhap		VARCHAR(20)			NOT NULL,
+					CONSTRAINT PK_HT_RoleUser PRIMARY KEY (MaRole,TenDangNhap),
+					CONSTRAINT PK_HT_User_HT_RoleUser FOREIGN KEY (TenDangNhap) REFERENCES HT_User(TenDangNhap),
+					CONSTRAINT PK_HT_Role_HT_RoleUser FOREIGN KEY (MaRole) REFERENCES HT_Role(MaRole)
+)
+GO
+
+

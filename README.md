@@ -1,2 +1,2 @@
-# ThangLong
- Đại học Thăng Long
+# Database Management System
+ Hệ quản trị cơ sở dữ liệu	
