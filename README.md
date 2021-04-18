@@ -1,2 +1,2 @@
 # ThangLong
- ThangLong
+ Đại học Thăng Long
