@@ -1,2 +1,2 @@
-# ThangLong
- ThangLong
+# Network Computers
+ Mạng máy tính
