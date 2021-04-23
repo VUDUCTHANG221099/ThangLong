@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phương trình bậc hai</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .container {
+            width: 450px;
+            height: auto;
+            background-color: aqua;
+            margin: 150px auto 0 auto;
+            padding: 0 20px 0 20px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #button {
+            width: 100%;
+        }
+
+        #h2 {
+            padding-top: 15px;
+            text-transform: uppercase;
+            font-size: 18px;
+            color: red;
+            opacity: 0.8;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        #h3 {
+            font-size: 20px;
+        }
+
+        #h2,
+        #h3 {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            text-align: center;
+        }
+
+        #a,
+        #b,
+        #c {
+            border: none;
+            border-radius: 50px;
+            height: 30px;
+            padding-left: 10px;
+            margin-top: 5px;
+
+        }
+
+        input::placeholder {
+            color: red;
+            font-weight: 700;
+            opacity: 0.8;
+        }
+
+        input[type="number"] {
+            border: none;
+            display: block;
+            background-color: none;
+            height: 30px;
+            outline: none;
+
+        }
+
+        .abc {
+            font-weight: 900;
+            margin-top: 10px;
+
+
+        }
+
+        #button {
+            margin-top: 10px;
+            /* padding-left: 0 !important; */
+            font-weight: 500;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            line-height: 50px;
+            height: 50px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            
+        }
+        #button[type="button"]:hover{
+            background-color:#333;
+            color:wheat;   
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h2 id="h2">Giải phương trình bậc hai</h2>
+        <h3 id="h3">ax<sup>2</sup>+bx+c</h3>
+        <form action="" method="get">
+            <table>
+                <tr>
+                    <td class="abc">Mời bạn nhập a:</td>
+                    <td><input type="number" name="" id="a" placeholder="Mời bạn nhập " autofocus></td>
+                </tr>
+                <tr>
+                    <td class="abc">Mời bạn nhập b:</td>
+                    <td><input type="number" name="" id="b" placeholder="Mời bạn nhập "></td>
+                </tr>
+                <tr>
+                    <td class="abc">Mời bạn nhập c:</td>
+                    <td><input type="number" name="" id="c" placeholder="Mời bạn nhập "></td>
+                </tr>
+                <tr>
+                    <td id="button" colspan="2"><input type="button" id="button" value="Kết quả" onclick="show()"></td>
+                </tr>
+            </table>
+
+
+
+            <center style="font-size:18px ;font-weight:bold; margin-bottom: 10px;">
+                <p id="show" style="margin: 0; "></p>
+                <p id="x1" style="margin: 0; text-align:left !important ;padding-left:100px"></p>
+                <p id="x2" style="margin: 0; text-align:left !important; padding-left:100px"></p>
+            </center>
+        </form>
+        </div>
+
+    </div>
+    <script>
+        function show() {
+            var Number_1 = document.getElementById('a').value;
+            var Number_2 = document.getElementById('b').value;
+            var Number_3 = document.getElementById('c').value;
+            var a = Number(Number_1);
+            var b = Number(Number_2);
+            var c = Number(Number_3);
+            if (a != 0) {
+                if ((b != 0 && c != 0) || (b != 0 && c == 0) || (b == 0 && c != 0))  {
+                    var detal = Math.pow(b, 2) - 4 * a * c;
+                    if (detal > 0) {
+                        var n1 = (-b + Math.sqrt(detal)) / (2 * a);
+                        var n2 = (-b - Math.sqrt(detal)) / (2 * a);
+                        var x1 = "x1= " + n1.toFixed(2);
+                        var x2 = "x2= " + n2.toFixed(2);
+                        document.getElementById('show').innerHTML = "Phương trình có hai nghiệm phân biệt: ";
+                        document.getElementById('x1').innerHTML = x1;
+                        document.getElementById('x2').innerHTML = x2;
+                    }else if (detal == 0) {
+                        var n = (-b)/ (2 * a);
+                        var x = "x= " + n.toFixed(2);
+                        document.getElementById('show').innerHTML = "Phương trình có nghiệm kép";
+                        document.getElementById('x1').innerHTML = x;
+                        document.getElementById('x2').innerHTML = "";
+                    } else {
+                        document.getElementById('show').innerHTML = "Phương trình vô nghiệm";
+                        document.getElementById('x1').innerHTML = "";
+                        document.getElementById('x2').innerHTML = "";
+                    }
+                }else{
+                    var x="x= "+0;
+                    document.getElementById('show').innerHTML = "Phương trình có nghiệm";
+                    document.getElementById('x1').innerHTML = x;
+                    document.getElementById('x2').innerHTML = "";
+                }
+            }else {
+                if(b==0){
+                    if(c==0){
+                        document.getElementById('show').innerHTML = "Phương trình vô số nghiệm";
+                        document.getElementById('x1').innerHTML = "";
+                        document.getElementById('x2').innerHTML = "";
+                    }else{
+                        document.getElementById('show').innerHTML = "Phương trình vô nghiệm";
+                        document.getElementById('x1').innerHTML = "";
+                        document.getElementById('x2').innerHTML = "";  
+                    }
+                }else{
+                    var n=(-c)/b;
+                    var x="x= "+n.toFixed(2);
+                    document.getElementById('show').innerHTML = "Phương trình có nghiệm";
+                    document.getElementById('x1').innerHTML = x;
+                    document.getElementById('x2').innerHTML = "";  
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
